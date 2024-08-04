@@ -103,7 +103,7 @@ class Importer(object):
         logger.info(f'Create AttributesValues quantity: {len(attrs_value)}')
         end_time = time.time()
         elapsed_time = end_time - start_time
-        logger.info(f"Creating of Attributes and AttributesValues took: {elapsed_time} seconds")
+        logger.info(f"Creating of Attributes and AttributesValues tooks: {elapsed_time} seconds")
 
     def create_childattributes(self, df):
         """
@@ -131,7 +131,7 @@ class Importer(object):
         created_attributes = ChildAttribute.objects.bulk_create(child_attrs_to_create)  # noqa: F841
         end_time = time.time()
         elapsed_time = end_time - start_time
-        logger.info(f"Creating of ChildAttributes took: {elapsed_time} seconds")
+        logger.info(f"Creating of ChildAttributes tooks: {elapsed_time} seconds")
         logger.info(f'ChildAttributes created quantity: {len(child_attrs_to_create)}')
 
     def create_child_attrs_values(self, df):
@@ -164,7 +164,7 @@ class Importer(object):
         elapsed_time = end_time - start_time
         created_attributes_values = AttributeValue.objects.bulk_create(child_attrs_values_to_create)  # noqa: F841
         logger.info(f'Values for ChildAttributes created quantity: {len(child_attrs_values_to_create)}')
-        logger.info(f"Values for ChildAttributes took: {elapsed_time} seconds")
+        logger.info(f"Values for ChildAttributes tooks: {elapsed_time} seconds")
 
     def import_data(self):
         """
@@ -179,7 +179,7 @@ class Importer(object):
         self.create_child_attrs_values(df)
         end_time = time.time()
         elapsed_time = end_time - main_start_time
-        logger.info(f"Import took: {elapsed_time} seconds")
+        logger.info(f"Import tooks: {elapsed_time} seconds")
 
     def export_data(self):
         """

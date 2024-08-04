@@ -1,5 +1,6 @@
 #!/bin/sh
 
+cd apexive
 python3 manage.py migrate
 python manage.py collectstatic --no-input
-gunicorn --threads 4 --bind 0.0.0.0:8000 apexive.wsgi
+python manage.py runserver 0:8000

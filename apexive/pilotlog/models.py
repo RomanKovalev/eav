@@ -3,14 +3,14 @@ from django.db import models
 
 class Row(models.Model):
     hash = models.CharField(max_length=64, unique=True, null=True)
-    table = models.CharField(max_length=64, unique=False, null=True)
+    table = models.CharField(max_length=64, unique=False, null=True, db_index=True)
 
     def __str__(self):
         return f'{self.pk}'
 
 
 class Attribute(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, db_index=True)
     row = models.ForeignKey(Row, related_name="rows", on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
@@ -18,7 +18,7 @@ class Attribute(models.Model):
 
 
 class ChildAttribute(models.Model):
-    name = models.CharField(max_length=255, null=True, blank=True)
+    name = models.CharField(max_length=255, null=True, blank=True, db_index=True)
     row = models.ForeignKey(Row, related_name="ch_a_rows", on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
@@ -32,6 +32,12 @@ class AttributeValue(models.Model):
         ChildAttribute, related_name="child_attribute", on_delete=models.CASCADE, null=True, blank=True
     )
     value = models.CharField(max_length=2000)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['row', 'attribute']),
+            models.Index(fields=['row', 'child_attribute']),
+        ]
 
     def __str__(self):
         return f'{self.row.pk} - {self.attribute.name}: {self.value}'
