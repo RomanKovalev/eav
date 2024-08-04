@@ -1,0 +1,30 @@
+version: "3.7"
+services:
+  db:
+    container_name: db
+    image: postgres:13.5
+    env_file: .env.develop
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - db-data:/var/lib/postgresql/data/pgdata:rw,Z
+  web:
+    container_name: web
+    build: .
+    depends_on:
+      - db
+    env_file: .env.develop
+    command: >
+      sh -c "/app/scripts/run_app.sh"
+    volumes:
+      - .:/app:rw,Z
+    ports:
+      - "8000:8000"
+
+volumes:
+  db-data:
